@@ -11,23 +11,31 @@ interface EtherscanResponse {
   message: string;
 }
 
-export interface EtherscanSourceCodeResponse extends EtherscanResponse {
-  result: {
-    SourceCode: string;
-    ABI: string;
-    ContractName: string;
-    CompilerVersion: string;
-    OptimizationUsed: string;
-    Runs: string;
-    ConstructorArguments: string;
-    EVMVersion: string;
-    Library: string;
-    LicenseType: string;
-    Proxy: string;
-    Implementation: string;
-    SwarmSource: string;
-  }[];
+interface EtherscanError extends EtherscanResponse {
+  result: string;
 }
+
+export interface EtherscanSourceCodeResponse extends EtherscanResponse {
+  result:
+    | {
+        SourceCode: string;
+        ABI: string;
+        ContractName: string;
+        CompilerVersion: string;
+        OptimizationUsed: string;
+        Runs: string;
+        ConstructorArguments: string;
+        EVMVersion: string;
+        Library: string;
+        LicenseType: string;
+        Proxy: string;
+        Implementation: string;
+        SwarmSource: string;
+      }[];
+}
+
+export const isEtherscanError = (data: EtherscanResponse): data is EtherscanError =>
+  data.status !== "1";
 
 export const fetchAbiAt = async (
   address: string,
@@ -52,19 +60,20 @@ export const fetchAbiAt = async (
   }
 
   const etherscan = new ethers.providers.EtherscanProvider(network, apiKey);
-  const res = await axios.get<EtherscanSourceCodeResponse>(
+  const { data } = await axios.get<EtherscanSourceCodeResponse>(
     etherscan.getUrl("contract", {
       action: "getsourcecode",
       address,
     })
   );
+  if (isEtherscanError(data)) throw new Error(data.result);
 
   try {
     return {
-      name: res.data.result[0].ContractName,
-      abi: JSON.parse(res.data.result[0].ABI),
+      name: data.result[0].ContractName,
+      abi: JSON.parse(data.result[0].ABI),
     };
   } catch {
-    throw new Error(res.data.result[0].ABI);
+    throw new Error(data.result[0].ABI);
   }
 };

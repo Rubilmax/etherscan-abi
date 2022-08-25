@@ -21,30 +21,17 @@ yarn add etherscan-abi
 
 ## Usage
 
+- Fetch the ABI of a contract from an address and save it to `abis/ContractName.json`:
+
 ```bash
 npx etherscan-abi 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
 ```
 
-## API
+- You can optionally provide a `target` directory path, an Etherscan `apiKey` (to bypass the default query rate limit):
 
-### myPackage(input, options?)
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-Type: `object`
-
-##### postfix
-
-Type: `string`
-Default: `rainbows`
-
-Lorem ipsum.
+```bash
+npx etherscan-abi --target abis/uniswap/ --apiKey ... 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
+```
 
 [build-img]: https://github.com/rubilmax/etherscan-abi/actions/workflows/release.yml/badge.svg
 [build-url]: https://github.com/rubilmax/etherscan-abi/actions/workflows/release.yml

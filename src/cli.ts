@@ -69,10 +69,28 @@ const options = commandLineArgs(optionDefinitions) as {
   network: ethers.providers.Networkish;
 };
 
-const fetchAbis = () => {
-  if (options.contract.length === 0) throw Error("No contract address specified.");
+const help = commandLineUsage([
+  {
+    header: "Etherscan ABI Fetcher",
+    content:
+      "⏬🚀 Fetch the most up-to-date ABI of a verified Smart Contract from Etherscan in seconds!",
+  },
+  {
+    header: "Options",
+    optionList: optionDefinitions,
+  },
+  {
+    content: "Project home: {underline https://github.com/rubilmax/etherscan-abi}",
+  },
+]);
 
-  if (!fs.existsSync(options.target)) fs.mkdirSync(options.target);
+const fetchAbis = () => {
+  if (options.contract.length === 0) {
+    console.error(colors.red("No contract address specified."));
+    return console.log(help);
+  }
+
+  if (!fs.existsSync(options.target)) fs.mkdirSync(options.target, { recursive: true });
 
   return Promise.all(
     options.contract.map(async (address) => {
@@ -98,21 +116,5 @@ const fetchAbis = () => {
   );
 };
 
-if (options.help) {
-  console.log(
-    commandLineUsage([
-      {
-        header: "Etherscan ABI Fetcher",
-        content:
-          "⏬🚀 Fetch the most up-to-date ABI of a verified Smart Contract from Etherscan in seconds!",
-      },
-      {
-        header: "Options",
-        optionList: optionDefinitions,
-      },
-      {
-        content: "Project home: {underline https://github.com/rubilmax/etherscan-abi}",
-      },
-    ])
-  );
-} else void fetchAbis();
+if (options.help) console.log(help);
+else void fetchAbis();
