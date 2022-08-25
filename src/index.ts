@@ -1,2 +1,2 @@
 export { fetchAbiAt } from "./fetch";
-export type { EtherscanAbiResponse } from "./fetch";
+export type { EtherscanSourceCodeResponse } from "./fetch";

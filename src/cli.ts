@@ -77,9 +77,9 @@ const fetchAbis = () => {
   return Promise.all(
     options.contract.map(async (address) => {
       try {
-        const abi = await fetchAbiAt(address, options);
+        const { name, abi } = await fetchAbiAt(address, options);
 
-        const targetPath = path.join(options.target, `${address}.json`);
+        const targetPath = path.join(options.target, `${name}.json`);
         fs.writeFileSync(targetPath, JSON.stringify(abi, null, 2));
 
         console.log(
