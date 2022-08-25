@@ -21,11 +21,8 @@ yarn add etherscan-abi
 
 ## Usage
 
-```ts
-import { myPackage } from "etherscan-abi";
-
-myPackage("hello");
-//=> 'hello from my package'
+```bash
+npx etherscan-abi 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
 ```
 
 ## API
