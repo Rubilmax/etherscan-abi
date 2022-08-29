@@ -27,10 +27,13 @@ yarn add etherscan-abi
 npx etherscan-abi 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
 ```
 
-- You can optionally provide a `target` directory path, an Etherscan `apiKey` (to bypass the default query rate limit):
+- You can optionally provide a `target` directory path, an Etherscan `apiKey` (to bypass the default query rate limit), or specify a `network` on which to query the Smart Contract's source code (by [name or chainId, decimal or hexadecimal](./src/constants/chainIds.ts)):
 
 ```bash
-npx etherscan-abi --target abis/uniswap/ --apiKey ... 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
+npx etherscan-abi --target abis/uniswap/ \
+    --apiKey ... \
+    --network polygon \
+    0xb33EaAd8d922B1083446DC23f610c2567fB5180f
 ```
 
 [build-img]: https://github.com/rubilmax/etherscan-abi/actions/workflows/release.yml/badge.svg

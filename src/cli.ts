@@ -66,7 +66,9 @@ const options = commandLineArgs(optionDefinitions) as {
   help: boolean;
   contract: string[];
   target: string;
-  network: ethers.providers.Networkish;
+  network: string;
+  apiKey: string;
+  rpcUrl: string;
 };
 
 const help = commandLineUsage([
@@ -85,19 +87,21 @@ const help = commandLineUsage([
 ]);
 
 const fetchAbis = () => {
-  if (options.contract.length === 0) {
+  const { contract, target, ...fetchConfig } = options;
+
+  if (contract.length === 0) {
     console.error(colors.red("No contract address specified."));
     return console.log(help);
   }
 
-  if (!fs.existsSync(options.target)) fs.mkdirSync(options.target, { recursive: true });
+  if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
 
   return Promise.all(
-    options.contract.map(async (address) => {
+    contract.map(async (address) => {
       try {
-        const { name, abi } = await fetchAbiAt(address, options);
+        const { name, abi } = await fetchAbiAt(address, fetchConfig);
 
-        const targetPath = path.join(options.target, `${name}.json`);
+        const targetPath = path.join(target, `${name}.json`);
         fs.writeFileSync(targetPath, JSON.stringify(abi, null, 2));
 
         console.log(
