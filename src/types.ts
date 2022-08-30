@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 export interface EtherscanConfig {
   network?: string;
   apiKey?: string;
@@ -5,6 +7,7 @@ export interface EtherscanConfig {
 
 export interface Config extends EtherscanConfig {
   rpcUrl?: string;
+  provider?: ethers.providers.JsonRpcProvider;
 }
 
 export interface EtherscanResponse {

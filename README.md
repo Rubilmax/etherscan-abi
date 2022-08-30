@@ -9,17 +9,9 @@
 
 > ⏬🚀 Fetch the most up-to-date ABI of a verified Smart Contract from Etherscan in seconds!
 
-## Install
-
-```bash
-npm install etherscan-abi
-```
-
-```bash
-yarn add etherscan-abi
-```
-
 ## Usage
+
+### CLI
 
 - Fetch the ABI of a contract from an address and save it to `abis/ContractName.json`:
 
@@ -34,6 +26,30 @@ npx etherscan-abi --target abis/uniswap/ \
     --apiKey ... \
     --network polygon \
     0xb33EaAd8d922B1083446DC23f610c2567fB5180f
+```
+
+### Javascript
+
+```javascript
+const { ethers } = require("ethers");
+const { getContractAt } = require("etherscan-abi");
+
+getContractAt(
+  "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+  new ethers.providers.JsonRpcProvider("...")
+)
+  .then((uni) => uni.balanceOf("..."))
+  .then(console.log);
+```
+
+## Install
+
+```bash
+npm install etherscan-abi
+```
+
+```bash
+yarn add etherscan-abi
 ```
 
 [build-img]: https://github.com/rubilmax/etherscan-abi/actions/workflows/release.yml/badge.svg
