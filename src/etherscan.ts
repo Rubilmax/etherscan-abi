@@ -13,31 +13,33 @@ export const getEtherscanBaseUrl = (chainId: number) => {
     case 10:
       return "https://api-optimistic.etherscan.io";
     case 25:
-      return "https://api.cronoscan.com/";
+      return "https://api.cronoscan.com";
     case 42:
       return "https://api-kovan.etherscan.io";
     case 56:
-      return "https://api.bscscan.com/";
+      return "https://api.bscscan.com";
     case 69:
       return "https://api-kovan-optimistic.etherscan.io";
     case 97:
-      return "https://api-testnet.bscscan.com/";
+      return "https://api-testnet.bscscan.com";
     case 100:
-      return "https://api.gnosisscan.io/";
+      return "https://api.gnosisscan.io";
     case 137:
-      return "https://api.polygonscan.com/";
+      return "https://api.polygonscan.com";
     case 250:
-      return "https://api.ftmscan.com/";
+      return "https://api.ftmscan.com";
     case 420:
       return "https://api-goerli-optimistic.etherscan.io";
+    case 1285:
+      return "https://api-moonriver.moonscan.io";
     case 4002:
-      return "https://api-testnet.ftmscan.com/";
+      return "https://api-testnet.ftmscan.com";
     case 42161:
-      return "https://api.arbiscan.io/";
+      return "https://api.arbiscan.io";
     case 43114:
-      return "https://api.snowtrace.io/";
+      return "https://api.snowtrace.io";
     case 80001:
-      return "https://api-testnet.polygonscan.com/";
+      return "https://api-testnet.polygonscan.com";
     default:
   }
 
