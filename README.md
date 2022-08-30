@@ -7,7 +7,7 @@
 [![Commitizen Friendly][commitizen-img]][commitizen-url]
 [![Semantic Release][semantic-release-img]][semantic-release-url]
 
-> ⏬🚀 Fetch the most up-to-date ABI of a verified Smart Contract from Etherscan in seconds!
+> ⏬🚀 Fetch the most up-to-date ABI of verified Smart Contracts (including proxy implementations) from Etherscan in seconds!
 
 ## Usage
 
@@ -17,6 +17,12 @@
 
 ```bash
 npx etherscan-abi 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
+```
+
+- Note that if a standard proxy is detected, the proxy's implementation ABI will automatically be fetched:
+
+```bash
+npx etherscan-abi 0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9
 ```
 
 - You can optionally provide a `target` directory path, an Etherscan `apiKey` (to bypass the default query rate limit), or specify a `network` on which to query the Smart Contract's source code (by [name or chainId, decimal or hexadecimal](./src/constants/chainIds.ts)):
