@@ -17,7 +17,7 @@ export const fetchAbiAt = async (
 ) => {
   network ??= process.env.NETWORK || "mainnet";
 
-  const chainId = ethers.utils.isHexString(network)
+  let chainId = ethers.utils.isHexString(network)
     ? parseInt(network, 16)
     : /^\d+$/.test(network)
     ? Number(network)
@@ -29,14 +29,15 @@ export const fetchAbiAt = async (
     rpcs[chainId.toString()]?.rpcs[0];
 
   if (provider || rpcUrl) {
+    const rpcProvider = provider || new ethers.providers.JsonRpcProvider(rpcUrl);
+
     try {
-      address = await getImplementationAddress(
-        provider || new ethers.providers.JsonRpcProvider(rpcUrl),
-        address
-      );
+      address = await getImplementationAddress(rpcProvider, address);
     } catch (error: any) {
       if (!(error instanceof EIP1967ImplementationNotFound)) throw error;
     }
+
+    chainId = rpcProvider.network.chainId;
   }
 
   const { data } = await axios.get<EtherscanSourceCodeResponse>(
