@@ -1,6 +1,4 @@
 export const getEtherscanBaseUrl = (chainId: number) => {
-  if (process.env.ETHERSCAN_BASE_URL) return process.env.ETHERSCAN_BASE_URL;
-
   switch (chainId) {
     case 1:
       return "https://api.etherscan.io";
@@ -51,18 +49,16 @@ export const getEtherscanBaseUrl = (chainId: number) => {
 export const getEtherscanUrl = (
   chainId: number,
   module: string,
-  params: Record<string, string>,
-  apiKey?: string
+  params: Record<string, string | undefined | null>
 ) => {
-  apiKey ??= process.env.ETHERSCAN_API_KEY || "";
+  params["apiKey"] ??= process.env.ETHERSCAN_API_KEY || "";
 
   const query = Object.keys(params).reduce((accum, key) => {
     const value = params[key];
-    if (value != null) {
-      accum += `&${key}=${value}`;
-    }
+    if (value != null) accum += `&${key}=${value}`;
+
     return accum;
   }, "");
 
-  return `${getEtherscanBaseUrl(chainId)}/api?module=${module}${query}${apiKey}`;
+  return `${getEtherscanBaseUrl(chainId)}/api?module=${module}${query}`;
 };

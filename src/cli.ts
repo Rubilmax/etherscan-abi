@@ -3,7 +3,6 @@ import colors from "colors/safe";
 import commandLineArgs from "command-line-args";
 import commandLineUsage from "command-line-usage";
 import dotenv from "dotenv";
-import { ethers } from "ethers";
 import fs from "fs";
 import path from "path";
 

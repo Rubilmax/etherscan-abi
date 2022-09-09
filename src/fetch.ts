@@ -13,12 +13,12 @@ import { Config, EtherscanSourceCodeResponse, isEtherscanError } from "./types";
 
 export const fetchAbiAt = async (
   address: string,
-  { rpcUrl, network, apiKey, provider }: Config
+  { provider, rpcUrl, network, apiKey }: Config
 ) => {
   let chainId: number = 1;
 
   if (!provider && !rpcUrl) {
-    network ??= process.env.NETWORK || "mainnet";
+    network ??= "mainnet";
 
     chainId = ethers.utils.isHexString(network)
       ? parseInt(network, 16)
@@ -26,10 +26,8 @@ export const fetchAbiAt = async (
       ? Number(network)
       : chainIds[network.toLowerCase()];
 
-    rpcUrl ??=
-      process.env.RPC_URL ||
-      // @ts-ignore
-      rpcs[chainId.toString()]?.rpcs[0];
+    // @ts-ignore
+    rpcUrl ??= rpcs[chainId.toString()]?.rpcs[0];
   }
 
   if (provider || rpcUrl) {
@@ -45,15 +43,11 @@ export const fetchAbiAt = async (
   }
 
   const { data } = await axios.get<EtherscanSourceCodeResponse>(
-    getEtherscanUrl(
-      chainId,
-      "contract",
-      {
-        action: "getsourcecode",
-        address,
-      },
-      apiKey
-    )
+    getEtherscanUrl(chainId, "contract", {
+      action: "getsourcecode",
+      address,
+      apiKey,
+    })
   );
   if (isEtherscanError(data)) throw new Error(data.result);
 
